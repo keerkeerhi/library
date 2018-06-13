@@ -1,0 +1,8 @@
+<section *ngIf="mService.messages.length>0" >
+  <h2>Message</h2>
+  <button (click)="mService.clear()" >
+    Clear
+  </button>
+  <button (click)="mService.add('ok')" >Add</button>
+  <div *ngFor="let m of mService.messages" >{{m}}</div>
+</section>
