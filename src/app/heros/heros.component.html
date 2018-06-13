@@ -1,6 +1,0 @@
-<ul>
-  <li [class.active]="hero==selectedHero" *ngFor="let hero of heros" (click)="showHero(hero)" >
-    <p>{{hero.name}}</p>
-    <input [(ngModel)]="hero.name" placeholder="输入英雄名称" />
-  </li>
-</ul>
