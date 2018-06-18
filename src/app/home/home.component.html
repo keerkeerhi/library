@@ -1,3 +1,25 @@
-<p>
-  home works!
-</p>
+<section [style.height]="windowH+'px'" class="index-page" >
+  <swiper [config]="config" >
+    <div *ngFor="let ban of banners" class="swiper-item" [style.background-image]="'url('+ban.img+')'" >
+    </div>
+  </swiper>
+  <!--<div class="page-index" >-->
+  <!--</div>-->
+  <!--<div class="page-index" >-->
+  <!--</div>-->
+  <!--<div class="page-index" >-->
+  <!--</div>-->
+  <!--<div class="page-index" >-->
+  <!--</div>-->
+  <header class="index-header" >
+    <img style="visibility: hidden;" src="" >
+    <ul class="header-nav" >
+      <li *ngFor="let tit of navList" >
+        {{tit.title}}
+      </li>
+    </ul>
+  </header>
+  <section style="background: #F6F6F6;height: 600px;" >
+
+  </section>
+</section>

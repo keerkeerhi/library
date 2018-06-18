@@ -1,2 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/reset.css";
+.page-index{
+  display: inline-block;
+  height: 6px;
+  width: 30px;
+  background: #ddd;
+  border-radius: 6px;
+  transition: background-color .5s;
+}
+.page-index:hover{
+  background-color: #18affc;
+}
+.page-index-acv{
+  background: #18affc;
+}
+
