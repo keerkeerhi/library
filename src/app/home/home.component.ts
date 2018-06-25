@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
+declare var d3;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
