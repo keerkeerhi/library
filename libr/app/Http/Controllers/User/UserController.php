@@ -28,7 +28,6 @@ class UserController extends Controller
      */
     public function checkAuth()
     {
-//        Log::info('basdflasdfasdf');
         $arr = null;
         if (Auth::check())
             $arr = ['code' => 0, 'info' => Auth::user()];
