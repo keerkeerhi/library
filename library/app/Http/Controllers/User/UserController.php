@@ -13,6 +13,14 @@ use Log;
 class UserController extends Controller
 {
     /**
+     * 建立一个新的 UserController 实例。
+     */
+    public function __construct()
+    {
+        $this->middleware('checkok');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

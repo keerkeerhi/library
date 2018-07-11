@@ -16,22 +16,28 @@
 //Route::get('home', 'HomeController@index');
 error_reporting(E_ALL &~ E_NOTICE);
 
-Route::post('/checkAuth',function(){
-    $arr = null;
-    if (Auth::check())
-        $arr = ['ispassed' => true, 'info' => Auth::user()];
-    else
-        $arr = ['ispassed' => false];
-    return \Response::json($arr);
+Route::get('/', function () {
+    return view('welcome');
 });
-Route::post('/logout',function(){
-    Auth::logout();
-    return '1';
+
+// 业务 路由
+Route::group(['prefix' => 'api'], function()
+{
+    Route::post('login', 'User\UserController@login');
+    Route::get('logout', 'User\UserController@logout');
+    Route::get('checkAuth', 'User\UserController@checkAuth');
+    Route::resource('user', 'User\UserController');
+
+    Route::group(['middleware' => ['checkok']], function()
+    {
+        Route::get('/', function()
+        {
+            // Has Foo And Bar Middleware
+        });
+
+    });
 });
-Route::post('/login','WelcomeController@login');
-Route::resource('staff','StaffController');
-Route::resource('customs','CustomsController');
-Route::resource('dict','DictController');
+
 
 //Route::controllers([
 //	'auth' => 'Auth\AuthController',
