@@ -12,9 +12,10 @@ class Article extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($navId)
 	{
-		//
+        $list = DB::select("select *from article where navid=?",[$navId]);
+        return \Response::json(['code' => 0, 'info' => $list]);
 	}
 
 	/**
@@ -32,9 +33,19 @@ class Article extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
+        extract($request::all());
+        if (isset($id)){
+            $res = DB::update('update article set title=?,content=?,source=?,navid=?',
+                [$title, $content, $source, $navid]);
+            $info = $imgurl;
+        }
+        else{
+            $res = DB::insert('insert article nav (title,content,source,navid) values (?,?,?,?)',
+                [$title, $content, $source, $navid]);
+        }
+        return \Response::json(array('code' => 0, 'info' => 'ok'));
 	}
 
 	/**
@@ -45,7 +56,8 @@ class Article extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $list = DB::select("select *from article where id=?",[$id]);
+        return \Response::json(['code' => 0, 'info' => $list]);
 	}
 
 	/**
@@ -78,7 +90,11 @@ class Article extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        $res = DB::delete('delete from article where id=?', [$id]);
+        if ($res)
+            return \Response::json(['code' => 0, 'info' => "已删除"]);
+        else
+            return \Response::json(['code' => 1, 'info' => "操作失败"]);
 	}
 
 }

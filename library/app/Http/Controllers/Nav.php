@@ -48,6 +48,17 @@ class Nav extends Controller {
         return \Response::json(array('code' => 0, 'info' => 'ok'));
 	}
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function getChild($id)
+    {
+        $list = DB::select("select *from nav where pid=?",[$id]);
+        return \Response::json(['code' => 0, 'info' => $list]);
+    }
+
 	/**
 	 * Display the specified resource.
 	 *
