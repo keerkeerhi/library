@@ -47,7 +47,6 @@ Route::group(['prefix' => 'api'], function()
         {
             // Has Foo And Bar Middleware
         });
-
     });
 });
 
