@@ -14,9 +14,31 @@ class Nav extends Controller {
 	 */
 	public function index()
 	{
-        $list = DB::select("select *from nav");
+        $list = DB::select("select *from nav where pid=-1 order by sort");
         return \Response::json(['code' => 0, 'info' => $list]);
 	}
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function getCNav(Request $request)
+    {
+        extract($request::all());
+        $list = DB::select("select *from nav where pid=? order by sort",[$id]);
+        return \Response::json(['code' => 0, 'info' => $list]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function getAll(){
+        $list = DB::select("select *from nav order by sort");
+        return \Response::json(['code' => 0, 'info' => $list]);
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -37,13 +59,13 @@ class Nav extends Controller {
 	{
         extract($request::all());
         if (isset($id)){
-            $res = DB::update('update nav set title=?,order=?,isshow=?,pid=?',
-                [$title, $order, $isshow, $pid]);
+            $res = DB::update('update nav set title=?,sort=?,isshow=?,pid=?',
+                [$title, $sort, $isshow, $pid]);
             $info = $imgurl;
         }
         else{
-            $res = DB::insert('insert into nav (title,order,isshow,pid) values (?,?,?,?)',
-                [$title, $order, 1, $pid]);
+            $res = DB::insert('insert into nav (title,sort,isshow,pid) values (?,?,?,?)',
+                [$title, $sort, 1, $pid]);
         }
         return \Response::json(array('code' => 0, 'info' => 'ok'));
 	}
@@ -102,6 +124,7 @@ class Nav extends Controller {
 	public function destroy($id)
 	{
         $res = DB::delete('delete from nav where id=?', [$id]);
+        $res2 = DB::delete('delete from nav where pid=?', [$id]);
         if ($res)
             return \Response::json(['code' => 0, 'info' => "已删除"]);
         else

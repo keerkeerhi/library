@@ -2,8 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+use DB;
+use Request;
 
 class Article extends Controller {
 
@@ -17,6 +17,18 @@ class Article extends Controller {
         $list = DB::select("select *from article where navid=?",[$navId]);
         return \Response::json(['code' => 0, 'info' => $list]);
 	}
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function getArt(Request $request)
+    {
+        extract($request::all());
+        $list = DB::select("select *from article where navid=? order by sort",[$id]);
+        return \Response::json(['code' => 0, 'info' => $list]);
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -37,13 +49,13 @@ class Article extends Controller {
 	{
         extract($request::all());
         if (isset($id)){
-            $res = DB::update('update article set title=?,content=?,source=?,navid=?',
-                [$title, $content, $source, $navid]);
+            $res = DB::update('update article set title=?,content=?,createtime=now(),navid=?,sort=?',
+                [$title, $content, $createtime, $navid,$sort]);
             $info = $imgurl;
         }
         else{
-            $res = DB::insert('insert article nav (title,content,source,navid) values (?,?,?,?)',
-                [$title, $content, $source, $navid]);
+            $res = DB::insert('insert article (title,content,createtime,navid,sort) values (?,?,now(),?,?)',
+                [$title, $content, $navid,$sort]);
         }
         return \Response::json(array('code' => 0, 'info' => 'ok'));
 	}

@@ -28,6 +28,19 @@ Route::group(['prefix' => 'api'], function()
     Route::get('checkAuth', 'User\UserController@checkAuth');
     Route::resource('user', 'User\UserController');
 
+    Route::resource('banner', 'Banner');
+    Route::post('hidebanner', 'Banner@hide');
+
+    Route::resource('nav', 'Nav');
+    Route::get('getCNav', 'Nav@getCNav');
+    Route::get('getAll', 'Nav@getAll');
+
+    Route::resource('article', 'Article');
+    Route::get('getArt', 'Article@getArt');
+
+    Route::resource('notice', 'Notice');
+
+
     Route::group(['middleware' => ['checkok']], function()
     {
         Route::get('/', function()
