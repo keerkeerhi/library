@@ -131,4 +131,22 @@ class Nav extends Controller {
             return \Response::json(['code' => 1, 'info' => "操作失败"]);
 	}
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function del(Request $request)
+    {
+        extract($request::all());
+
+        $res = DB::delete('delete from nav where id=?', [$id]);
+        $res2 = DB::delete('delete from nav where pid=?', [$id]);
+        if ($res)
+            return \Response::json(['code' => 0, 'info' => "已删除"]);
+        else
+            return \Response::json(['code' => 1, 'info' => "操作失败"]);
+    }
+
 }

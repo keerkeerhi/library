@@ -30,15 +30,20 @@ Route::group(['prefix' => 'api'], function()
 
     Route::resource('banner', 'Banner');
     Route::post('hidebanner', 'Banner@hide');
+    Route::post('del_banner', 'Banner@del');
 
     Route::resource('nav', 'Nav');
     Route::get('getCNav', 'Nav@getCNav');
     Route::get('getAll', 'Nav@getAll');
+    Route::post('del_nav', 'Nav@del');
 
     Route::resource('article', 'Article');
     Route::get('getArt', 'Article@getArt');
+    Route::post('del_art', 'Article@del');
 
     Route::resource('notice', 'Notice');
+    Route::post('hidenotice', 'Notice@hide');
+    Route::post('del_notice', 'Notice@del');
 
 
     Route::group(['middleware' => ['checkok']], function()
