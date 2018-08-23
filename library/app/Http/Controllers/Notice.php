@@ -16,9 +16,20 @@ class Notice extends Controller {
 	 */
 	public function index()
 	{
-        $list = DB::select("select *from notice where isshow=1 order by sort");
+        $list = DB::select("select *from notice order by sort");
         return \Response::json(['code' => 0, 'info' => $list]);
 	}
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function indexPage()
+    {
+        $list = DB::select("select *from notice where isshow=1 order by sort");
+        return \Response::json(['code' => 0, 'info' => $list]);
+    }
 
 	/**
 	 * Show the form for creating a new resource.

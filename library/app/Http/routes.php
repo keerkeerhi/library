@@ -44,7 +44,7 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('notice', 'Notice');
     Route::post('hidenotice', 'Notice@hide');
     Route::post('del_notice', 'Notice@del');
-
+    Route::get('indexPage', 'Notice@indexPage');
 
     Route::group(['middleware' => ['checkok']], function()
     {
