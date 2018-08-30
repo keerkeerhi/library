@@ -41,6 +41,24 @@ class Notice extends Controller {
 		//
 	}
 
+	/*
+	 *  保存图片
+	 * */
+    public function uploadImg(Request $request)
+    {
+        $path = 'photos/upload/';
+        $headimg = $request::file('image');
+        if ($request::hasFile('image') && $request::file('image')->isValid()) {
+            $clientName = $headimg->getClientOriginalExtension();
+            $clientName = time() . md5('picture') . '.' . $clientName;
+            $headimg->move($path, $clientName);
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/public/' . $path . $clientName;
+        } else
+            $url = '';
+        // data 是一个数组，返回若干图片的线上地址
+        return \Response::json(array('code' => 0, 'url' => $url));
+    }
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -55,18 +73,22 @@ class Notice extends Controller {
             $clientName = $headimg->getClientOriginalExtension();
             $clientName = time() . md5('picture') . '.' . $clientName;
             $headimg->move($path, $clientName);
-            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/public/' . $path . $clientName;
+            $urll = 'http://' . $_SERVER['HTTP_HOST'] . '/public/' . $path . $clientName;
         } else
-            $url = '';
+            $urll = null;
 
-        Log::info(json_encode("=======>>" . $url));
+        Log::info(json_encode("=======>>" . $urll));
+        if (isset($urll))
+            $imgurl = $urll;
+        else
+            $imgurl = $url;
         if (isset($id)){
-            $res = DB::update('update notice set content=?,img=?,sort=?,isshow=?,title=?,createtime=now()',
-                [$content, $url, $sort, $isshow, $title]);
+            $res = DB::update('update notice set content=?,img=?,sort=?,title=? where id=?',
+                [$content, $imgurl, $sort, $title,$id]);
         }
         else{
             $res = DB::insert('insert into notice (content,img,sort,isshow,title,createtime) values (?,?,?,?,?,now())',
-                [$content, $url, $sort, 1, $title]);
+                [$content, $urll, $sort, 1, $title]);
         }
         return \Response::json(array('code' => 0, 'info' => 'ok'));
 	}

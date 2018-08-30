@@ -49,9 +49,8 @@ class Article extends Controller {
 	{
         extract($request::all());
         if (isset($id)){
-            $res = DB::update('update article set title=?,content=?,createtime=now(),navid=?,sort=?',
-                [$title, $content, $createtime, $navid,$sort]);
-            $info = $imgurl;
+            $res = DB::update('update article set title=?,content=?,sort=? where id=?',
+                [$title, $content,$sort,$id]);
         }
         else{
             $res = DB::insert('insert article (title,content,createtime,navid,sort) values (?,?,now(),?,?)',
